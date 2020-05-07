@@ -68,6 +68,8 @@ public class SVG_job {
 		
 		job.setOutputKeyClass(NullWritable.class);
 		job.setOutputValueClass(IntWritable.class);
+		job.setMapOutputKeyClass(IntWritable.class);
+		job.setMapOutputValueClass(SVG_Writable.class);
 		
 		job.setMapperClass(SVGMap.class);
 		job.setCombinerClass(SVGCombine.class);
