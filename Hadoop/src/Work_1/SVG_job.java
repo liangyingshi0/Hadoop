@@ -6,6 +6,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -16,19 +17,19 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 //MapReduce程序
 public class SVG_job {
 
-	public static class SVGMap extends Mapper<LongWritable, Text, IntWritable, SVG_Writable>{
+	public static class SVGMap extends Mapper<LongWritable, Text, NullWritable, IntWritable>{
 		private SVG_Writable w = new SVG_Writable();
 		protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException{
 			w.setCount(1);
 			w.setAverage(Integer.parseInt(value.toString().split(",")[1]));
-			context.write(new IntWritable(1), w);
+			//context.write(new IntWritable(1), w);
 			//new IntWritable(1)是新建了这个类的一个对象，而数值道1这是参数。在Hadoop中它相当于java中Integer整型变量，为这个变量赋值为1.
 			//输出<1,{w}>    结果：1 53 88     意思：53个数，平均值为88
-			//context.write(null, w);
+			context.write(NullWritable.get(), new IntWritable(w.getAverage()));
 		}
 	}
 	
-	public static class SVGReduce extends Reducer<IntWritable, SVG_Writable, IntWritable, SVG_Writable>{
+	public static class SVGReduce extends Reducer<NullWritable, IntWritable, NullWritable, IntWritable>{
 		private SVG_Writable result = new SVG_Writable();
 		protected void reduce(IntWritable key, Iterable<SVG_Writable> values, Context context) throws IOException, InterruptedException{
 			int sum = 0;
@@ -39,7 +40,7 @@ public class SVG_job {
 			}
 			result.setCount(count);
 			result.setAverage(sum/count);
-			context.write(key, result);
+			context.write(NullWritable.get(), new IntWritable(sum/count));
 			//key是1，在map里context.write(new IntWritable(1), w);赋值
 		}
 	}
@@ -50,8 +51,8 @@ public class SVG_job {
 		Job job = Job.getInstance(conf);
 		job.setJarByClass(SVG_job.class);
 		
-		job.setOutputKeyClass(IntWritable.class);
-		job.setOutputValueClass(SVG_Writable.class);
+		job.setOutputKeyClass(NullWritable.class);
+		job.setOutputValueClass(IntWritable.class);
 		
 		job.setMapperClass(SVGMap.class);
 		job.setCombinerClass(SVGReduce.class);
