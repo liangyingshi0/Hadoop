@@ -36,7 +36,7 @@ public class SVG_job {
 			int count = 0;
 			for (SVG_Writable val : values){
 				sum += val.getCount()*val.getAverage();
-				count += val.getCount();
+				count += 1;
 			}
 			result.setCount(count);
 			result.setAverage(sum/count);
