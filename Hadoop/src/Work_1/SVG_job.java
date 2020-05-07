@@ -20,7 +20,7 @@ public class SVG_job {
 		private SVG_Writable w = new SVG_Writable();
 		protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException{
 			w.setCount(1);
-			w.setAverage(Integer.parseInt(value.toString()));
+			w.setAverage(Integer.parseInt(value.toString().split(",")[1]));
 			context.write(new IntWritable(1), w);
 		}
 	}
@@ -41,7 +41,7 @@ public class SVG_job {
 	}
 	
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-		args = new String[]{"Work_1/svg_input","Work_1/svg_output"};
+		args = new String[]{"src/Work_1/svg_input","src/Work_1/svg_output"};
 		Configuration conf = new Configuration();
 		Job job = Job.getInstance(conf);
 		job.setJarByClass(SVG_job.class);
