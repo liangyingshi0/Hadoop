@@ -21,14 +21,14 @@ public class SVG_job {
 		protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException{
 			w.setCount(1);
 			w.setAverage(Integer.parseInt(value.toString().split(",")[1]));
-			//context.write(new IntWritable(1), w);
+			context.write(new IntWritable(1), w);
 			//new IntWritable(1)是新建了这个类的一个对象，而数值道1这是参数。在Hadoop中它相当于java中Integer整型变量，为这个变量赋值为1.
 			//输出<1,{w}>    结果：1 53 88     意思：53个数，平均值为88
-			context.write(null, w);
+			//context.write(null, w);
 		}
 	}
 	
-	public static class SVGReduce extends Reducer<IntWritable, SVG_Writable, IntWritable, SVG_Writable>{
+	public static class SVGReduce extends Reducer<IntWritable, SVG_Writable, IntWritable, Integer>{
 		private SVG_Writable result = new SVG_Writable();
 		protected void reduce(IntWritable key, Iterable<SVG_Writable> values, Context context) throws IOException, InterruptedException{
 			int sum = 0;
@@ -39,7 +39,8 @@ public class SVG_job {
 			}
 			result.setCount(count);
 			result.setAverage(sum/count);
-			context.write(key, result);
+			context.write(key, result.getAverage());
+			//key是1，在map里context.write(new IntWritable(1), w);赋值了
 		}
 	}
 	
