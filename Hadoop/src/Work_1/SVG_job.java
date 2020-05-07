@@ -50,7 +50,7 @@ public class SVG_job {
 		Job job = Job.getInstance(conf);
 		job.setJarByClass(SVG_job.class);
 		
-		//job.setOutputKeyClass(IntWritable.class);
+		job.setOutputKeyClass(IntWritable.class);
 		job.setOutputValueClass(SVG_Writable.class);
 		
 		job.setMapperClass(SVGMap.class);
