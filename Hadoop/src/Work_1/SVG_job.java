@@ -21,10 +21,10 @@ public class SVG_job {
 		protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException{
 			w.setCount(1);
 			w.setAverage(Integer.parseInt(value.toString().split(",")[1]));
-			context.write(new IntWritable(1), w);
+			//context.write(new IntWritable(1), w);
 			//new IntWritable(1)是新建了这个类的一个对象，而数值道1这是参数。在Hadoop中它相当于java中Integer整型变量，为这个变量赋值为1.
 			//输出<1,{w}>    结果：1 53 88     意思：53个数，平均值为88
-			//context.write(null, w);
+			context.write(null, w);
 		}
 	}
 	
@@ -39,7 +39,7 @@ public class SVG_job {
 			}
 			result.setCount(count);
 			result.setAverage(sum/count);
-			context.write(key, result);
+			context.write(null, result);
 			//key是1，在map里context.write(new IntWritable(1), w);赋值了
 		}
 	}
