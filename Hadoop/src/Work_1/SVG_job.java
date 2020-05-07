@@ -39,7 +39,7 @@ public class SVG_job {
 			}
 			result.setCount(count);
 			result.setAverage(sum/count);
-			context.write(null, result);
+			context.write(key, result);
 			//key是1，在map里context.write(new IntWritable(1), w);赋值了
 		}
 	}
