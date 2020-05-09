@@ -40,9 +40,9 @@ public class SVG_Writable implements Writable{
 		out.writeInt(average);
 	}
 
-	@Override
+	/*@Override
 	public String toString() {
 		return count + "\t" + average;
 	}
-	
+	*/
 }
