@@ -40,6 +40,7 @@ public class SVG_Writable implements Writable{
 		out.writeInt(average);
 	}
 
+	//因为最终输出不涉及该Writable输出，注释掉照样得出相同结果
 	/*@Override
 	public String toString() {
 		return count + "\t" + average;

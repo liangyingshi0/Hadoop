@@ -48,6 +48,8 @@ public class SVG_job {
 	}
 	
 	//Reducer
+	//Combiner虽然与Reducer的内容相似，但它们的输入输出格式不一样，所以分开两个写。
+	//因为Reduce输出是最终输出文本的内容，它只需要一个平均值，所以可以最终结果可以不需要用SVG_Writable的形式
 	public static class SVGReduce extends Reducer<IntWritable, SVG_Writable, NullWritable, IntWritable>{
 		//private SVG_Writable result = new SVG_Writable();
 		protected void reduce(IntWritable key, Iterable<SVG_Writable> values, Context context) throws IOException, InterruptedException{
@@ -66,12 +68,14 @@ public class SVG_job {
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 		//运行前，要先把svg_output文件夹删去，否则会报错；两个数据文件要放在svg_input文件夹里
 		args = new String[]{"src/Work_1/svg_input","src/Work_1/svg_output"};
-		Configuration conf = new Configuration();
-		Job job = Job.getInstance(conf);
-		job.setJarByClass(SVG_job.class);
+		Configuration conf = new Configuration();//配环境
+		Job job = Job.getInstance(conf);//实例化
+		job.setJarByClass(SVG_job.class);//设运行Jar类型
 		
+		//该两行设置输出类型是会影响MapReduce的输出：Map,Reducer
 		job.setOutputKeyClass(NullWritable.class);
 		job.setOutputValueClass(IntWritable.class);
+		//更改Map的输出类型
 		job.setMapOutputKeyClass(IntWritable.class);
 		job.setMapOutputValueClass(SVG_Writable.class);
 		
