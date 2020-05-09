@@ -83,6 +83,7 @@ public class SVG_job {
 		job.setCombinerClass(SVGCombine.class);
 		job.setReducerClass(SVGReduce.class);
 		
+		//设文件输入输出路径
 		FileInputFormat.addInputPath(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
 		
