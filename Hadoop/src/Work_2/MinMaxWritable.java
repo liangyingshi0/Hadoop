@@ -40,7 +40,7 @@ public class MinMaxWritable implements Writable{
 
 	@Override
 	public String toString() {
-		return max + "\t" + min;
+		return max + " " + min;
 	}
 
 }
