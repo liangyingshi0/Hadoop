@@ -25,6 +25,7 @@ public class Run {
 		job.setCombinerClass(MinMaxReducer.class);
 		job.setReducerClass(MinMaxReducer.class);
 		
+		//设置输出类型
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(MinMaxWritable.class);
 		
