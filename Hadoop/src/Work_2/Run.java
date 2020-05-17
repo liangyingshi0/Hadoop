@@ -19,6 +19,8 @@ public class Run {
 		Job job = Job.getInstance(conf);//实例化
 		job.setJarByClass(Run.class);//设运行Jar类型
 		job.setMapperClass(MinMaxMapper.class);
+		job.setPartitionerClass(MyPartitioner.class);
+		job.setSortComparatorClass(MySort.class);
 		job.setCombinerClass(MinMaxReducer.class);
 		job.setReducerClass(MinMaxReducer.class);
 		
