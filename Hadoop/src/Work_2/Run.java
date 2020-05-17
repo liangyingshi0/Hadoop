@@ -18,7 +18,7 @@ public class Run {
 		Configuration conf = new Configuration();//配环境
 		Job job = Job.getInstance(conf);//实例化
 		job.setJarByClass(Run.class);//设运行Jar类型
-		job.setNumReduceTasks(2);
+		job.setNumReduceTasks(2);//设置Reducer任务数，输出文件会有两个，一个是2017年，另一个是2018
 		job.setMapperClass(MinMaxMapper.class);
 		job.setPartitionerClass(MyPartitioner.class);
 		job.setSortComparatorClass(MySort.class);
