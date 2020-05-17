@@ -2,14 +2,15 @@ package Work_2;
 
 import java.io.IOException;
 
+import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
-public class MinMaxMapper extends Mapper<Object, Text, Text, MinMaxWritable>{
+public class MinMaxMapper extends Mapper<LongWritable, Text, Text, MinMaxWritable>{
 	private MinMaxWritable outTuple = new MinMaxWritable();
 	
 	@Override
-	protected void map(Object key, Text value, Context context)
+	protected void map(LongWritable key, Text value, Context context)
 			throws IOException, InterruptedException {
 		String[] strs = value.toString().split(" ");
 		//获取日期
